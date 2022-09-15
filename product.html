@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,12 +8,54 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css
     ">
     <title>Document</title>
+    <style>
+        .nav-link{
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .car{
+            color: brown;
+        }
+        .logo{
+            font-size: 25px;
+            font-weight: 700;
+            background-color: lightblue;
+            padding: 10px;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand logo" href="#">爬山趣</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">產品</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">租借商品</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">活動</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">訂房</a>
+                    </li>
+                    
+                </ul>
+                    <a class="nav-link car" href="#">購物車</a>
+            </div>
+        </div>
+    </nav>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js
     "></script>
 </body>
+
 </html>

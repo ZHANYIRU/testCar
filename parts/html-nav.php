@@ -1,8 +1,14 @@
 <style>
     .container .row .clicked {
-        background-color: blue;
+        background-color: #0d6efd;
         color: white;
         border-radius: 10px;
+    }
+    .badge:empty{
+        display: inline-block;
+    }
+    .badge{
+        background-color: #17a2b8;
     }
 </style>
 
@@ -10,7 +16,7 @@
     <div class="row">
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand logo" href="#">爬山趣</a>
+                <h1 class="logo">爬山趣</h1>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -21,7 +27,7 @@
                             <a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $pageName == 'products' ? 'clicked' : '' ?>" href="#">產品</a>
+                            <a class="nav-link <?= $pageName == 'products' ? 'clicked' : '' ?>" href="./products.php">產品</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= $pageName == 'rent' ? 'clicked' : '' ?>" href="#">租借商品</a>
@@ -33,7 +39,8 @@
                             <a class="nav-link <?= $pageName == 'bookroom' ? 'clicked' : '' ?>" href="#">訂房</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">購物車</a>
+                            <a class="nav-link <?= $pageName == 'car' ? 'clicked' : '' ?>" href="./car-list.php">購物車
+                                <span class="badge">0</span></a>
                         </li>
                     </ul>
                 </div>

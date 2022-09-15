@@ -14,15 +14,10 @@
             font-size: 20px;
             font-weight: 700;
         }
-
-        .car {
-            color: brown;
-        }
-
         .logo {
-            font-size: 25px;
-            font-weight: 700;
-            background-color: lightblue;
+            font-size: 30px;
+            font-weight: 900;
+            color: #2A52BE;
             padding: 10px;
         }
     </style>

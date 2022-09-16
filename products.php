@@ -1,4 +1,6 @@
-<?php $pageName = 'products'; ?>
+<?php require __DIR__ .'/parts/connect_db.php';
+$pageName = 'products';
+?>
 <?php include __DIR__ . '/parts/html-head.php'; ?>
 <?php include __DIR__ . '/parts/html-nav.php'; ?>
 <style>
@@ -19,7 +21,7 @@
 <div class="container">
     <div class="row">
         <div class="card" style="width: 18rem;">
-            <img src="./imgs/9662616_R.jpg" class="card-img-top" alt="...">
+            <img src="./imgs/PR1000.jpg" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">日本限定款，避震三節式登山杖</h5>
                 <p class="card-text">
@@ -50,7 +52,7 @@
             icon: 'success',
             title: '已加入購物車',
             showConfirmButton: false,
-            timer: 1000
+            timer: 1000,
         })
     })
 </script>

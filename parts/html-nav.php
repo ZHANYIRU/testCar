@@ -37,7 +37,7 @@
                             <a class="nav-link <?= $pageName == 'bookroom' ? 'clicked' : '' ?>" href="#">訂房</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $pageName == 'car' ? 'clicked' : '' ?>" href="./car-list.php">購物車
+                            <a class="nav-link <?= $pageName == 'car' ? 'clicked' : '' ?>" href="./cart-list.php">購物車
                                 <span class="badge">0</span></a>
                         </li>
                     </ul>

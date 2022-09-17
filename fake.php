@@ -1,4 +1,4 @@
-<?php //require __DIR__ .'/parts/connect_db.php';
+<?php require __DIR__ .'/parts/connect_db.php';
 $sql = "INSERT INTO `products`( 
     `pr_name`, 
     `pr_caption`, 
@@ -15,10 +15,10 @@ $sql = "INSERT INTO `products`(
         NOW())";
     $stmt = $pdo->prepare($sql);
 
-    for($i=0; $i<=20; $i++){
+    for($i=0; $i<=40; $i++){
         $name = '日本限定款，避震三節式登山杖';
         $ca = '杖身採用堅固耐用的航太鋁合金材質';
-        $img = 'PR100'.$i;
+        $img = 'PR'.$i;
         $price = rand(1000,5000);
         $quantity = 99;
 

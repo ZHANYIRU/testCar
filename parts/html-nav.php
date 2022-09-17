@@ -10,6 +10,9 @@
     .badge{
         background-color: #17a2b8;
     }
+    .none{
+        display: none;
+    }
 </style>
 
 <div class="container">
@@ -42,6 +45,8 @@
                         </li>
                     </ul>
                 </div>
+                
+                <button type="button" class="btn btn-warning <?= $pageName =='car' ? "" : "none" ?>">清空購物車</button>
             </div>
         </nav>
     </div>

@@ -4,7 +4,7 @@ $pageName = 'car';
 
 // echo json_encode($_SESSION['cart']);
 // foreach($_SESSION['cart'] as $k => $v){
-//     print_r($v);
+//     echo json_encode($v['sid'] , JSON_UNESCAPED_UNICODE) ;
 // }
 
 // exit;

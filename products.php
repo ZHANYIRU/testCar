@@ -111,18 +111,26 @@ $rows = $pdo->query($sql)->fetchAll();
         fs.value = sid;
         fq.value = qty
         let fd = new FormData(document.querySelector('.form1'));
+        let cartNum = 0;
+        let badge = document.querySelector('.badge');
         fetch('handle-cart-test.php', {
                 method: "POST",
                 body: fd
             })
             .then(r => r.json())
-            .then(obj=>console.log(obj))
+            .then(obj=>{
+                for(let b in obj){
+                    cartNum += obj[b].qty
+                }
+                badge.textContent = cartNum;
+            })
         Swal.fire({
             icon: 'success',
             title: '已加入購物車',
             showConfirmButton: false,
             timer: 1000,
         });
+        
     }
 </script>
 <?php include __DIR__ . '/parts/html-foot.php'; ?>

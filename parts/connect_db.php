@@ -3,7 +3,7 @@
 $db_host = 'localhost';
 $db_name = 'ispan_midterm';
 $db_user = 'root';
-$db_pass = '';
+$db_pass = 'root';
 
 $dsn = "mysql:host={$db_host};dbname={$db_name};charset=utf8";
 $pdo_options = [

@@ -27,6 +27,9 @@ $pageName = 'car';
         margin-bottom: 0;
     }
 </style>
+<form class="form1">
+    <input type="text" name="sid" id="sid">
+</form>
 <div class="container">
     <div class="row">
         <table class="table table-striped table-bordered">
@@ -49,7 +52,7 @@ $pageName = 'car';
                 ?>
                     <tr data_sid="<?= $r['sid'] ?>" class="item">
                         <td>
-                            <a href="#">
+                            <a href="javascript: delete_it(<?= $r['sid']?>)" data_sid="<?= $r['sid']?>">
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </td>
@@ -62,7 +65,7 @@ $pageName = 'car';
                             <select class="form-select" onchange="change(event)">
                                 <?php for ($i = 1; $i <= 10; $i++) : ?>
                                     <?php ?>
-                                    <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?>><?= $i ?></option>
+                                    <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
                                     <? ?>
                                 <?php endfor; ?>
                             </select>
@@ -108,11 +111,8 @@ $pageName = 'car';
                     '',
                     'success'
                 )
-                // location.href = 'clean-api.php'
             }
-
         })
-
     });
 
     //金額
@@ -120,22 +120,56 @@ $pageName = 'car';
     let toAll = document.querySelector('.toAll');
     for (let i = 0; i < total.length; i++) {
         total[i].textContent = Number(price[i].textContent) * Number(sel[i].value);
-        // console.log(total[i].textContent);
         totalAll += Number(total[i].textContent);
     }
     //總金額
-    toAll.textContent = `$${totalAll}`
+    toAll.textContent = `$${totalAll}`;
 
     //更換數量
     function change(event) {
         let qty = event.target.value;
-        price = event.target.parentNode.parentNode.childNodes[7].textContent;
-        money = event.target.parentNode.parentNode.childNodes[11];
-        money.textContent = Number(qty * price);
-        for(let a of total){
-            let b = b + Number(a.textContent);
-            console.log(b)
+        money = event.target.parentNode.parentNode.childNodes[7].textContent;
+        moneyAll = event.target.parentNode.parentNode.childNodes[11];
+        moneyAll.textContent = Number(qty * money);
+        toAll.textContent = ""
+        totalAll = 0;
+        for (let i = 0; i < total.length; i++) {
+            total[i].textContent = Number(price[i].textContent) * Number(sel[i].value);
+            totalAll += Number(total[i].textContent);
         }
+        toAll.textContent = `$${totalAll}`;
+    }
+
+    //刪除單筆
+    
+    function delete_it(event) {
+        let sid = document.querySelector('#sid');
+        sid.value = event;
+        let fd = new FormData(document.querySelector('.form1'))
+        Swal.fire({
+            title: '確定要刪除嗎?',
+            text: "您將刪除此筆資料!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '確定!',
+            cancelButtonText: '取消',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('delete-api.php',{
+                    method:"POST",
+                    body:fd
+                })
+                .then(r=>r.json());
+                Swal.fire(
+                    '已完成',
+                    '',
+                    'success'
+                )
+                setTimeout('location.href="cart-list.php"',600);
+            }
+
+        })
     }
 </script>
 <?php include __DIR__ . '/parts/html-foot.php'; ?>

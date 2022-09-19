@@ -7,7 +7,6 @@ if(! isset($_SESSION['cart'])){
 $sid = isset($_POST['sid']) ? intval($_POST['sid']) : 0;
 $qty = isset($_POST['qty']) ? intval($_POST['qty']) : 0;
 
-
 // C: 加到購物車, sid, qty
 // R: 查看購物車內容
 // U: 更新, sid, qty
@@ -17,14 +16,12 @@ if(! empty($sid)) {
 
     if(! empty($qty)) {
         // 新增或變更
-
         if(!empty($_SESSION['cart'][$sid])){
-            // 已存在, 變更
+            // 已存在, 增加
             $_SESSION['cart'][$sid]['qty'] = $_SESSION['cart'][$sid]['qty'] + $qty;
         } else {
             // 新增
             // TODO: 檢查資料表是不是有這個商品
-
             $row = $pdo->query("SELECT * FROM products WHERE sid=$sid")->fetch();
             if(! empty($row)){
                 $row['qty'] = $qty;  // 先把數量放進去

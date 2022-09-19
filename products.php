@@ -110,17 +110,12 @@ $rows = $pdo->query($sql)->fetchAll();
         let fq = document.querySelector('#qty');
         fs.value = sid;
         fq.value = qty
-        console.log(sid);
-        console.log(qty);
         let fd = new FormData(document.querySelector('.form1'));
         fetch('handle-cart-test.php', {
                 method: "POST",
                 body: fd
             })
-            .then(r => r.json())
-            .then(obj => {
-                console.log(obj);
-            })
+            .then(r => r.json());
         Swal.fire({
             icon: 'success',
             title: '已加入購物車',

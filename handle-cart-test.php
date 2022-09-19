@@ -17,7 +17,7 @@ if(! empty($sid)) {
     if(! empty($qty)) {
         // 新增或變更
         if(!empty($_SESSION['cart'][$sid])){
-            // 已存在, 增加
+            // 已存在,變更(增加)
             $_SESSION['cart'][$sid]['qty'] = $_SESSION['cart'][$sid]['qty'] + $qty;
         } else {
             // 新增

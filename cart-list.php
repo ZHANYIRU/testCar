@@ -82,7 +82,7 @@ if (!isset($_SESSION['cart'])) {
             <p>總金額：</p><span class="toAll"></span>
         </div>
     </div>
-    <button type="button" class="btn btn-info">結帳</button>
+    <button type="button" class="btn btn-info" onclick="toBuy()">結帳</button>
 </div>
 
 
@@ -117,8 +117,7 @@ if (!isset($_SESSION['cart'])) {
             }
         })
     });
-
-    //金額
+    //顯示金額
     let totalAll = 0;
     let toAll = document.querySelector('.toAll');
     for (let i = 0; i < total.length; i++) {
@@ -126,7 +125,7 @@ if (!isset($_SESSION['cart'])) {
         totalAll += Number(total[i].textContent.split('$')[1]);
     }
     //總金額
-    toAll.textContent = `$${Number(totalAll).toLocaleString()}`;
+    toAll.textContent = `$${totalAll}`;
     //更換數量
     function change(event) {
         let qty = event.target.value;
@@ -139,9 +138,8 @@ if (!isset($_SESSION['cart'])) {
             total[i].textContent = `$${Number(price[i].textContent.split('$')[1]) * Number(sel[i].value)}`;
             totalAll += Number(total[i].textContent.split('$')[1]);
         }
-        toAll.textContent = `$${Number(totalAll).toLocaleString()}`;
+        toAll.textContent = `$${totalAll}`;
     }
-
     //刪除單筆
 
     function delete_it(event) {
@@ -158,11 +156,12 @@ if (!isset($_SESSION['cart'])) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch('delete-api.php', {
+                fetch('handle-cart-test.php', {
                         method: "POST",
                         body: fd
                     })
-                    .then(r => r.json());
+                    .then(r => r.json())
+                    .then(obj=>console.log(obj))
                 Swal.fire(
                     '已完成',
                     '',
@@ -171,6 +170,24 @@ if (!isset($_SESSION['cart'])) {
                 setTimeout('location.href="cart-list.php"', 600);
             }
 
+        })
+    }
+    function toBuy(){
+        Swal.fire({
+            title: '確定要結帳嗎?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '確定!',
+            cancelButtonText: '取消',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    '已完成',
+                    '',
+                    'success',
+                )
+            }
         })
     }
 </script>

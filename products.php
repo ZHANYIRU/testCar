@@ -115,7 +115,8 @@ $rows = $pdo->query($sql)->fetchAll();
                 method: "POST",
                 body: fd
             })
-            .then(r => r.json());
+            .then(r => r.json())
+            .then(obj=>console.log(obj))
         Swal.fire({
             icon: 'success',
             title: '已加入購物車',

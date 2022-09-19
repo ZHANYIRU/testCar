@@ -2,12 +2,9 @@
 require __DIR__ . '/parts/connect_db.php';
 $pageName = 'car';
 
-// echo json_encode($_SESSION['cart']);
-// foreach($_SESSION['cart'] as $k => $v){
-//     echo json_encode($v['sid'] , JSON_UNESCAPED_UNICODE) ;
-// }
-
-// exit;
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php'; ?>
@@ -25,6 +22,10 @@ $pageName = 'car';
 
     .alert p {
         margin-bottom: 0;
+    }
+
+    .form1 {
+        display: none;
     }
 </style>
 <form class="form1">
@@ -45,35 +46,37 @@ $pageName = 'car';
                     <th scope="col">金額</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php
-                foreach ($_SESSION['cart'] as $r) :
+            <form>
+                <tbody>
+                    <?php
+                    foreach ($_SESSION['cart'] as $r) :
 
-                ?>
-                    <tr data_sid="<?= $r['sid'] ?>" class="item">
-                        <td>
-                            <a href="javascript: delete_it(<?= $r['sid']?>)" data_sid="<?= $r['sid']?>">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </a>
-                        </td>
-                        <td>
-                            <img src="./imgs/<?= $r['img_id'] ?>.jpg" alt="" width="150px">
-                        </td>
-                        <td><?= $r['pr_name'] ?></td>
-                        <td class="price"><?= $r['price'] ?></td>
-                        <td>
-                            <select class="form-select" onchange="change(event)">
-                                <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                    <?php ?>
-                                    <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
-                                    <? ?>
-                                <?php endfor; ?>
-                            </select>
-                        </td>
-                        <td class="total"></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+                    ?>
+                        <tr data_sid="<?= $r['sid'] ?>" class="item">
+                            <td>
+                                <a href="javascript: delete_it(<?= $r['sid'] ?>)" data_sid="<?= $r['sid'] ?>">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <img src="./imgs/<?= $r['img_id'] ?>.jpg" alt="" width="150px">
+                            </td>
+                            <td><?= $r['pr_name'] ?></td>
+                            <td class="price">$<?= $r['price'] ?></td>
+                            <td>
+                                <select class="form-select" onchange="change(event)">
+                                    <?php for ($i = 1; $i <= 10; $i++) : ?>
+                                        <?php ?>
+                                        <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
+                                        <? ?>
+                                    <?php endfor; ?>
+                                </select>
+                            </td>
+                            <td class="total"></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </form>
         </table>
         <div class="alert alert-primary" role="alert">
             <p>總金額：</p><span class="toAll"></span>
@@ -109,7 +112,7 @@ $pageName = 'car';
                 Swal.fire(
                     '已完成',
                     '',
-                    'success'
+                    'success',
                 )
             }
         })
@@ -119,29 +122,28 @@ $pageName = 'car';
     let totalAll = 0;
     let toAll = document.querySelector('.toAll');
     for (let i = 0; i < total.length; i++) {
-        total[i].textContent = Number(price[i].textContent) * Number(sel[i].value);
-        totalAll += Number(total[i].textContent);
+        total[i].textContent = `$${Number(price[i].textContent.split('$')[1] * sel[i].value)}`;
+        totalAll += Number(total[i].textContent.split('$')[1]);
     }
     //總金額
-    toAll.textContent = `$${totalAll}`;
-
+    toAll.textContent = `$${Number(totalAll).toLocaleString()}`;
     //更換數量
     function change(event) {
         let qty = event.target.value;
-        money = event.target.parentNode.parentNode.childNodes[7].textContent;
+        money = event.target.parentNode.parentNode.childNodes[7].textContent.split('$')[1];
         moneyAll = event.target.parentNode.parentNode.childNodes[11];
-        moneyAll.textContent = Number(qty * money);
+        moneyAll.textContent = Number(qty) * Number(money);
         toAll.textContent = ""
         totalAll = 0;
         for (let i = 0; i < total.length; i++) {
-            total[i].textContent = Number(price[i].textContent) * Number(sel[i].value);
-            totalAll += Number(total[i].textContent);
+            total[i].textContent = `$${Number(price[i].textContent.split('$')[1]) * Number(sel[i].value)}`;
+            totalAll += Number(total[i].textContent.split('$')[1]);
         }
-        toAll.textContent = `$${totalAll}`;
+        toAll.textContent = `$${Number(totalAll).toLocaleString()}`;
     }
 
     //刪除單筆
-    
+
     function delete_it(event) {
         let sid = document.querySelector('#sid');
         sid.value = event;
@@ -156,17 +158,17 @@ $pageName = 'car';
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch('delete-api.php',{
-                    method:"POST",
-                    body:fd
-                })
-                .then(r=>r.json());
+                fetch('delete-api.php', {
+                        method: "POST",
+                        body: fd
+                    })
+                    .then(r => r.json());
                 Swal.fire(
                     '已完成',
                     '',
                     'success'
                 )
-                setTimeout('location.href="cart-list.php"',600);
+                setTimeout('location.href="cart-list.php"', 600);
             }
 
         })

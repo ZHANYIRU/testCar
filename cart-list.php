@@ -25,11 +25,12 @@ if (!isset($_SESSION['cart'])) {
     }
 
     .form1 {
-        display: none;
+        /* display: none; */
     }
 </style>
 <form class="form1">
     <input type="text" name="sid" id="sid">
+    <input type="text" name="tPrice" id="tPrice">
 </form>
 <div class="container">
     <div class="row">
@@ -96,6 +97,8 @@ if (!isset($_SESSION['cart'])) {
     let price = document.querySelectorAll('.price');
     let sel = document.querySelectorAll('.form-select');
     let clean = document.querySelector(".btn-warning");
+    let sid = document.querySelector('#sid');
+
     //清空購物車
     clean.addEventListener('click', () => {
         Swal.fire({
@@ -141,9 +144,7 @@ if (!isset($_SESSION['cart'])) {
         toAll.textContent = `$${totalAll}`;
     }
     //刪除單筆
-
     function delete_it(event) {
-        let sid = document.querySelector('#sid');
         sid.value = event;
         let fd = new FormData(document.querySelector('.form1'))
         Swal.fire({
@@ -172,23 +173,39 @@ if (!isset($_SESSION['cart'])) {
 
         })
     }
+    //購物車沒商品 隱藏btn
+    let tbody = document.querySelector('tbody');
+    let btn = document.querySelector('.btn-info')
+    if( tbody.textContent == 0 ){
+        btn.style.display = "none"
+    }
+
     function toBuy(){
-        Swal.fire({
-            title: '確定要結帳嗎?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: '確定!',
-            cancelButtonText: '取消',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    '已完成',
-                    '',
-                    'success',
-                )
-            }
+        let tPrice = document.querySelector('#tPrice');
+        tPrice.value = toAll.textContent.split('$')[1];
+        let fd = new FormData(document.querySelector('.form1'));
+        fetch('buy-api.php',{
+            method:"POST",
+            body:fd
         })
+        .then(r=>r.text())
+        .then(obj=>console.log(obj));
+        // Swal.fire({
+        //     title: '確定要結帳嗎?',
+        //     icon: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonText: '確定!',
+        //     cancelButtonText: '取消',
+        //     reverseButtons: true
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //         Swal.fire(
+        //             '已完成',
+        //             '',
+        //             'success',
+        //         )
+        //     }
+        // })
     }
 </script>
 <?php include __DIR__ . '/parts/html-foot.php'; ?>

@@ -87,7 +87,7 @@ $rows = $pdo->query($sql)->fetchAll();
                                 <option value="<?= $i ?>"><?= $i ?></option>
                             <?php endfor; ?>
                         </select>
-                        <button type="button" class="btn btn-primary" data_sid="<?= $r['sid'] ?>" onclick="addToCar(event)" ><i class="fa-solid fa-cart-plus"></i></button>
+                        <button type="button" class="btn btn-primary" data_sid="<?= $r['sid'] ?>" onclick="addToCar(event)"><i class="fa-solid fa-cart-plus"></i></button>
                     </div>
                 </div>
 
@@ -102,6 +102,8 @@ $rows = $pdo->query($sql)->fetchAll();
 <?php include __DIR__ . '/parts/html-script.php'; ?>
 <script>
     //querySelectorAll回傳陣列
+
+
     function addToCar(event) {
         let btnE = event.currentTarget;
         let sid = btnE.getAttribute("data_sid");
@@ -118,8 +120,8 @@ $rows = $pdo->query($sql)->fetchAll();
                 body: fd
             })
             .then(r => r.json())
-            .then(obj=>{
-                for(let b in obj){
+            .then(obj => {
+                for (let b in obj) {
                     cartNum += obj[b].qty
                 }
                 badge.textContent = cartNum;
@@ -130,7 +132,7 @@ $rows = $pdo->query($sql)->fetchAll();
             showConfirmButton: false,
             timer: 1000,
         });
-        
+
     }
 </script>
 <?php include __DIR__ . '/parts/html-foot.php'; ?>

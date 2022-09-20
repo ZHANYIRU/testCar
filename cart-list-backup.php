@@ -25,7 +25,7 @@ if (!isset($_SESSION['cart'])) {
     }
 
     .form1 {
-        /* display: none; */
+        display: none;
     }
 </style>
 <form class="form1">

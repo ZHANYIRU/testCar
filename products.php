@@ -102,8 +102,6 @@ $rows = $pdo->query($sql)->fetchAll();
 <?php include __DIR__ . '/parts/html-script.php'; ?>
 <script>
     //querySelectorAll回傳陣列
-
-
     function addToCar(event) {
         let btnE = event.currentTarget;
         let sid = btnE.getAttribute("data_sid");
@@ -115,7 +113,7 @@ $rows = $pdo->query($sql)->fetchAll();
         let fd = new FormData(document.querySelector('.form1'));
         let cartNum = 0;
         let badge = document.querySelector('.badge');
-        fetch('proCart.php', {
+        fetch('./cart-api/proCart.php', {
                 method: "POST",
                 body: fd
             })

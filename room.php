@@ -21,7 +21,6 @@ $rows = $pdo->query($sql)->fetchAll();
     }
 
     .fa-cart-plus {
-        /* font-size: 30px; */
         color: white;
     }
 
@@ -30,7 +29,7 @@ $rows = $pdo->query($sql)->fetchAll();
     }
 
     .form1 {
-        /* display: none; */
+        display: none;
     }
 
     .card-body {
@@ -41,6 +40,7 @@ $rows = $pdo->query($sql)->fetchAll();
 </style>
 <form class="form1">
     <input type="text" name="sid" id="sid">
+    <input type="text" name="qty" id="qty">
     <input type="text" name="date" id="date">
 </form>
 <div class="container">
@@ -64,10 +64,11 @@ $rows = $pdo->query($sql)->fetchAll();
         </nav>
         <?php foreach ($rows as $r) : ?>
 
-            <div class="card" style="width: 18rem;">
-                <img src="./imgs/<?= $r['room_img'] ?>" class="card-img-top" alt="...">
+            <div class="card" style="width: 20rem;">
+                <img src="./imgs/<?= $r['room_img'] ?>" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title"><?= $r['room_name'] ?></h5>
+                    <p class="card-text"><?= $r['room_details'] ?></p>
                     <div>
                         <p class="card-text">
                             <i class="fa-solid fa-dollar-sign"></i>
@@ -75,8 +76,14 @@ $rows = $pdo->query($sql)->fetchAll();
                         </p>
                         <label for="start">入住：</label>
                         <input type="date" id="start">
+                        <br>
                         <label for="end">離開：</label>
                         <input type="date" id="end">
+                        <select class="form-select">
+                            <?php for ($i = 1; $i <= 10; $i++) : ?>
+                                <option value="<?= $i ?>"><?= $i ?></option>
+                            <?php endfor; ?>
+                        </select>
                         <button type="button" class="btn btn-primary" data_sid="<?= $r['room_sid'] ?>" onclick="addToCar(event)"><i class="fa-solid fa-cart-plus"></i></button>
                     </div>
                 </div>
@@ -93,6 +100,31 @@ $rows = $pdo->query($sql)->fetchAll();
 <?php include __DIR__ . '/parts/html-script.php'; ?>
 <script>
     function addToCar(event) {
+        let btnE = event.currentTarget;
+        let sid = btnE.getAttribute("data_sid");
+        let qty = btnE.parentNode.querySelector('.form-select').value;
+        let fs = document.querySelector('#sid');
+        let fdate = document.querySelector('#date');
+        let fq = document.querySelector('#qty');
+        fs.value = sid;
+        fq.value = qty
+        let fd = new FormData(document.querySelector('.form1'));
+        let cartNum = 0;
+        let badge = document.querySelector('.badge');
+        fetch('./cart-api/roomCart.php', {
+                method: "POST",
+                body: fd
+            })
+            .then(r => r.json())
+            .then(obj => {
+                console.log(obj)
+            })
+        Swal.fire({
+            icon: 'success',
+            title: '已加入購物車',
+            showConfirmButton: false,
+            timer: 1000,
+        });
 
     }
 </script>

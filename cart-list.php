@@ -3,6 +3,7 @@ $pageName = 'car';
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
+    $_SESSION['rCart'] = [];
 }
 
 ?>
@@ -38,7 +39,7 @@ if (!isset($_SESSION['cart'])) {
     }
 
     .form1 {
-        /* display: none; */
+        display: none;
     }
 </style>
 <form class="form1">
@@ -67,26 +68,25 @@ if (!isset($_SESSION['cart'])) {
                     </thead>
                     <tbody>
                         <?php
-                        foreach ($_SESSION['cart'] as $r) :
+                        foreach ($_SESSION['cart'] as $p) :
 
                         ?>
-                            <tr data_sid="<?= $r['sid'] ?>" class="item">
+                            <tr data_sid="<?= $p['sid'] ?>" class="item">
                                 <td>
-                                    <a href="javascript: delete_it(<?= $r['sid'] ?>)" data_sid="<?= $r['sid'] ?>">
+                                    <a href="javascript: delete_it(<?= $p['sid'] ?>)" data_sid="<?= $p['sid'] ?>">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <img src="./imgs/<?= $r['img_id'] ?>.jpg" alt="" width="150px">
+                                    <img src="./imgs/<?= $p['img_id'] ?>.jpg" alt="" width="150px">
                                 </td>
-                                <td><?= $r['pr_name'] ?></td>
-                                <td class="price">$<?= $r['price'] ?></td>
+                                <td><?= $p['pr_name'] ?></td>
+                                <td class="price">$<?= $p['price'] ?></td>
                                 <td>
-                                    <select class="form-select" onchange="change(event)">
+                                    
+                                    <select class="form-select" onchange="change()">
                                         <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                            <?php ?>
-                                            <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
-                                            <? ?>
+                                            <option value="<?= $i ?>" <?= $p['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
                                         <?php endfor; ?>
                                     </select>
                                 </td>
@@ -124,7 +124,6 @@ if (!isset($_SESSION['cart'])) {
                 </div>
             </div>
         </div>
-
         <div class="alert alert-primary text" role="alert">
             活動
         </div>
@@ -167,6 +166,34 @@ if (!isset($_SESSION['cart'])) {
                             <th scope="col">金額</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <?php
+                        foreach ($_SESSION['rCart'] as $r) :
+
+                        ?>
+                            <tr data_sid="<?= $r['room_sid'] ?>" class="item">
+                                <td>
+                                    <a href="javascript: delete_it(<?= $r['room_sid'] ?>)" data_sid="<?= $r['room_sid'] ?>">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <img src="./imgs/<?= $r['room_img'] ?>" alt="" width="150px">
+                                </td>
+                                <td><?= $r['room_name'] ?></td>
+                                <td class="price">$<?= $r['room_price'] ?></td>
+                                <td>
+                                    
+                                    <select class="form-select" onchange="change()">
+                                        <?php for ($i = 1; $i <= 10; $i++) : ?>
+                                            <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </td>
+                                <td class="total"></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
                 </table>
                 <div class="alert alert-info" role="alert">
                     <p>總金額：</p><span class="toAll"></span>
@@ -174,6 +201,7 @@ if (!isset($_SESSION['cart'])) {
             </div>
         </div>
     </div>
+    <button type="button" class="btn btn-info" onclick="toBuy()">結帳</button>
 </div>
 
 
@@ -219,8 +247,9 @@ if (!isset($_SESSION['cart'])) {
     //總金額
     toAll.textContent = `$${totalAll}`;
     //更換數量
-    function change(event) {
-        let qty = event.target.value;
+    let qty = 0
+    function change() {
+        qty = event.target.value;
         money = event.target.parentNode.parentNode.childNodes[7].textContent.split('$')[1];
         moneyAll = event.target.parentNode.parentNode.childNodes[11];
         moneyAll.textContent = Number(qty) * Number(money);
@@ -246,7 +275,7 @@ if (!isset($_SESSION['cart'])) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch('proCart.php', {
+                fetch('./cart-api/proCart.php', {
                         method: "POST",
                         body: fd
                     })

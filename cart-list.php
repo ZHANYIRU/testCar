@@ -1,15 +1,27 @@
-<?php
-require __DIR__ . '/parts/connect_db.php';
+<?php require __DIR__ . '/parts/connect_db.php';
 $pageName = 'car';
 
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
-}
+
+
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php'; ?>
 <?php include __DIR__ . '/parts/html-nav.php'; ?>
 <style>
+    .btn-primary:hover {
+        --bs-btn-hover-bg: #cfe2ff;
+        --bs-btn-hover-color: #084298;
+        --bs-btn-active-bg: #cfe2ff
+    }
+
+    .coll {
+        margin-bottom: 20px;
+    }
+
+    .text {
+        text-align: center;
+    }
+
     .form-select {
         width: 60%;
         display: inline-block;
@@ -34,71 +46,147 @@ if (!isset($_SESSION['cart'])) {
 </form>
 <div class="container">
     <div class="row">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </th>
-                    <th scope="col">封面</th>
-                    <th scope="col">商品名稱</th>
-                    <th scope="col">單價</th>
-                    <th scope="col">數量</th>
-                    <th scope="col">金額</th>
-                </tr>
-            </thead>
-            <form>
-                <tbody>
-                    <?php
-                    foreach ($_SESSION['cart'] as $r) :
-
-                    ?>
-                        <tr data_sid="<?= $r['sid'] ?>" class="item">
-                            <td>
-                                <a href="javascript: delete_it(<?= $r['sid'] ?>)" data_sid="<?= $r['sid'] ?>">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <img src="./imgs/<?= $r['img_id'] ?>.jpg" alt="" width="150px">
-                            </td>
-                            <td><?= $r['pr_name'] ?></td>
-                            <td class="price">$<?= $r['price'] ?></td>
-                            <td>
-                                <select class="form-select" onchange="change(event)">
-                                    <?php for ($i = 1; $i <= 10; $i++) : ?>
-                                        <?php ?>
-                                        <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
-                                        <? ?>
-                                    <?php endfor; ?>
-                                </select>
-                            </td>
-                            <td class="total"></td>
+        <div class="alert alert-primary text" role="alert">
+            商品
+        </div>
+        <div class="coll" id="rental">
+            <div class="card card-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </th>
+                            <th scope="col">封面</th>
+                            <th scope="col">商品名稱</th>
+                            <th scope="col">單價</th>
+                            <th scope="col">數量</th>
+                            <th scope="col">金額</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </form>
-        </table>
-        <div class="alert alert-primary" role="alert">
-            <p>總金額：</p><span class="toAll"></span>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($_SESSION['cart'] as $r) :
+
+                        ?>
+                            <tr data_sid="<?= $r['sid'] ?>" class="item">
+                                <td>
+                                    <a href="javascript: delete_it(<?= $r['sid'] ?>)" data_sid="<?= $r['sid'] ?>">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <img src="./imgs/<?= $r['img_id'] ?>.jpg" alt="" width="150px">
+                                </td>
+                                <td><?= $r['pr_name'] ?></td>
+                                <td class="price">$<?= $r['price'] ?></td>
+                                <td>
+                                    <select class="form-select" onchange="change(event)">
+                                        <?php for ($i = 1; $i <= 10; $i++) : ?>
+                                            <?php ?>
+                                            <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
+                                            <? ?>
+                                        <?php endfor; ?>
+                                    </select>
+                                </td>
+                                <td class="total"></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <div class="alert alert-info" role="alert">
+                    <p>總金額：</p><span class="toAll"></span>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-primary text" role="alert">
+            租借商品
+        </div>
+        <div class="coll" id="products">
+            <div class="card card-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </th>
+                            <th scope="col">封面</th>
+                            <th scope="col">商品名稱</th>
+                            <th scope="col">單價</th>
+                            <th scope="col">數量</th>
+                            <th scope="col">金額</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="alert alert-info" role="alert">
+                    <p>總金額：</p><span class="toAll"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-primary text" role="alert">
+            活動
+        </div>
+        <div class="coll" id="campaign">
+            <div class="card card-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </th>
+                            <th scope="col">封面</th>
+                            <th scope="col">商品名稱</th>
+                            <th scope="col">單價</th>
+                            <th scope="col">數量</th>
+                            <th scope="col">金額</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="alert alert-info" role="alert">
+                    <p>總金額：</p><span class="toAll"></span>
+                </div>
+            </div>
+        </div>
+        <div class="alert alert-primary text" role="alert">
+            訂房管理
+        </div>
+        <div class="coll" id="room">
+            <div class="card card-body">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </th>
+                            <th scope="col">封面</th>
+                            <th scope="col">商品名稱</th>
+                            <th scope="col">單價</th>
+                            <th scope="col">數量</th>
+                            <th scope="col">金額</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="alert alert-info" role="alert">
+                    <p>總金額：</p><span class="toAll"></span>
+                </div>
+            </div>
         </div>
     </div>
-    <button type="button" class="btn btn-info" onclick="toBuy()">結帳</button>
 </div>
 
 
 
 
 
-<?php include __DIR__ . '/parts/html-script.php'; ?>
 
+<?php include __DIR__ . '/parts/html-script.php'; ?>
 <script>
     let total = document.querySelectorAll('.total');
     let price = document.querySelectorAll('.price');
     let sel = document.querySelectorAll('.form-select');
     let clean = document.querySelector(".btn-warning");
     let sid = document.querySelector('#sid');
-
     //清空購物車
     clean.addEventListener('click', () => {
         Swal.fire({
@@ -157,12 +245,12 @@ if (!isset($_SESSION['cart'])) {
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch('handle-cart-test.php', {
+                fetch('proCart.php', {
                         method: "POST",
                         body: fd
                     })
                     .then(r => r.json())
-                    .then(obj=>console.log(obj))
+                    .then(obj => console.log(obj))
                 Swal.fire(
                     '已完成',
                     '',
@@ -176,20 +264,20 @@ if (!isset($_SESSION['cart'])) {
     //購物車沒商品 隱藏btn
     let tbody = document.querySelector('tbody');
     let btn = document.querySelector('.btn-info')
-    if( tbody.textContent == 0 ){
+    if (tbody.textContent == 0) {
         btn.style.display = "none"
     }
 
-    function toBuy(){
+    function toBuy() {
         let tPrice = document.querySelector('#tPrice');
         tPrice.value = toAll.textContent.split('$')[1];
         let fd = new FormData(document.querySelector('.form1'));
-        fetch('buy-api.php',{
-            method:"POST",
-            body:fd
-        })
-        .then(r=>r.text())
-        .then(obj=>console.log(obj));
+        fetch('buy-api.php', {
+                method: "POST",
+                body: fd
+            })
+            .then(r => r.text())
+            .then(obj => console.log(obj));
         // Swal.fire({
         //     title: '確定要結帳嗎?',
         //     icon: 'warning',

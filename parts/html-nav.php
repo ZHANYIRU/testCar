@@ -4,13 +4,16 @@
         color: white;
         border-radius: 10px;
     }
-    .badge:empty{
+
+    .badge:empty {
         display: inline-block;
     }
-    .badge{
+
+    .badge {
         background-color: #17a2b8;
     }
-    .none{
+
+    .none {
         display: none;
     }
 </style>
@@ -26,7 +29,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        
+
                         <li class="nav-item">
                             <a class="nav-link <?= $pageName == 'products' ? 'clicked' : '' ?>" href="./products.php">產品</a>
                         </li>
@@ -37,16 +40,19 @@
                             <a class="nav-link <?= $pageName == 'activity' ? 'clicked' : '' ?>" href="#">活動</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $pageName == 'bookroom' ? 'clicked' : '' ?>" href="#">訂房</a>
+                            <a class="nav-link <?= $pageName == 'room' ? 'clicked' : '' ?>" href="room.php">訂房</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= $pageName == 'car' ? 'clicked' : '' ?>" href="./cart-list.php">購物車
                                 <span class="badge">0</span></a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $pageName == 'list' ? 'clicked' : '' ?>" href="./list.php">訂單管理</a>
+                        </li>
                     </ul>
                 </div>
-                
-                <button type="button" class="btn btn-warning <?= $pageName =='car' ? "" : "none" ?>">清空購物車</button>
+
+                <button type="button" class="btn btn-warning <?= $pageName == 'car' ? "" : "none" ?>">清空購物車</button>
             </div>
         </nav>
     </div>

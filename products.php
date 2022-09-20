@@ -113,7 +113,7 @@ $rows = $pdo->query($sql)->fetchAll();
         let fd = new FormData(document.querySelector('.form1'));
         let cartNum = 0;
         let badge = document.querySelector('.badge');
-        fetch('handle-cart-test.php', {
+        fetch('proCart.php', {
                 method: "POST",
                 body: fd
             })

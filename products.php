@@ -118,12 +118,11 @@ $rows = $pdo->query($sql)->fetchAll();
                 body: fd
             })
             .then(r => r.json())
-            .then(obj => {
-                for (let b in obj) {
-                    cartNum += obj[b].qty
-                }
-                badge.textContent = cartNum;
-            })
+            .then(function(data){
+                count(data)
+                console.log(data)
+            }
+            )
         Swal.fire({
             icon: 'success',
             title: '已加入購物車',

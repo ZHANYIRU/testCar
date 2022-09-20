@@ -44,7 +44,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= $pageName == 'car' ? 'clicked' : '' ?>" href="./cart-list.php">購物車
-                                <span class="badge">0</span></a>
+                                <span class="badge"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= $pageName == 'list' ? 'clicked' : '' ?>" href="./list.php">訂單管理</a>

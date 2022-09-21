@@ -42,7 +42,7 @@ if (!isset($_SESSION['rCart'])) {
     }
 
     .form1 {
-        /* display: none; */
+        display: none;
     }
 </style>
 <form class="form1">
@@ -172,7 +172,6 @@ if (!isset($_SESSION['rCart'])) {
                     <tbody>
                         <?php
                         foreach ($_SESSION['rCart'] as $r) :
-
                         ?>
                             <tr data_sid="<?= $r['room_sid'] ?>" class="item">
                                 <td>

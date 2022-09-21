@@ -34,16 +34,16 @@
                             <a class="nav-link <?= $pageName == 'products' ? 'clicked' : '' ?>" href="./products.php">產品</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $pageName == 'rent' ? 'clicked' : '' ?>" href="#">租借商品</a>
+                            <a class="nav-link <?= $pageName == 'rental' ? 'clicked' : '' ?>" href="./rental.php">租借商品</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $pageName == 'activity' ? 'clicked' : '' ?>" href="#">活動</a>
+                            <a class="nav-link <?= $pageName == 'campaign' ? 'clicked' : '' ?>" href="./campaign.php">活動</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link <?= $pageName == 'room' ? 'clicked' : '' ?>" href="room.php">訂房</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $pageName == 'car' ? 'clicked' : '' ?>" href="./cart-list.php">購物車
+                            <a class="nav-link <?= $pageName == 'cart' ? 'clicked' : '' ?>" href="./cart-list.php">購物車
                                 <span class="badge"></span></a>
                         </li>
                         <li class="nav-item">

@@ -1,5 +1,5 @@
 <?php require __DIR__ . '/parts/connect_db.php';
-$pageName = 'car';
+$pageName = 'cart';
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];

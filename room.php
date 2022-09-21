@@ -116,8 +116,9 @@ $rows = $pdo->query($sql)->fetchAll();
                 body: fd
             })
             .then(r => r.json())
-            .then(obj => {
-                console.log(obj)
+            .then(data => {
+                count(data)
+                console.log(data)
             })
         Swal.fire({
             icon: 'success',
@@ -127,6 +128,12 @@ $rows = $pdo->query($sql)->fetchAll();
         });
 
     }
+    fetch('./cart-api/proCart.php')
+        .then(r => r.json())
+        .then(function(data) {
+            count(data)
+            console.log(data)
+        });
 </script>
 
 

@@ -3,6 +3,8 @@ $pageName = 'car';
 
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
+}
+if (!isset($_SESSION['rCart'])) {
     $_SESSION['rCart'] = [];
 }
 
@@ -32,6 +34,7 @@ if (!isset($_SESSION['cart'])) {
     .alert {
         display: flex;
         justify-content: space-between;
+        margin-top: 15px;
     }
 
     .alert p {
@@ -39,7 +42,7 @@ if (!isset($_SESSION['cart'])) {
     }
 
     .form1 {
-        display: none;
+        /* display: none; */
     }
 </style>
 <form class="form1">
@@ -83,7 +86,7 @@ if (!isset($_SESSION['cart'])) {
                                 <td><?= $p['pr_name'] ?></td>
                                 <td class="price">$<?= $p['price'] ?></td>
                                 <td>
-                                    
+
                                     <select class="form-select" onchange="change()">
                                         <?php for ($i = 1; $i <= 10; $i++) : ?>
                                             <option value="<?= $i ?>" <?= $p['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
@@ -95,9 +98,9 @@ if (!isset($_SESSION['cart'])) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div class="alert alert-info" role="alert">
+                <!-- <div class="alert alert-info" role="alert">
                     <p>總金額：</p><span class="toAll"></span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="alert alert-primary text" role="alert">
@@ -119,9 +122,9 @@ if (!isset($_SESSION['cart'])) {
                         </tr>
                     </thead>
                 </table>
-                <div class="alert alert-info" role="alert">
+                <!-- <div class="alert alert-info" role="alert">
                     <p>總金額：</p><span class="toAll"></span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="alert alert-primary text" role="alert">
@@ -143,9 +146,9 @@ if (!isset($_SESSION['cart'])) {
                         </tr>
                     </thead>
                 </table>
-                <div class="alert alert-info" role="alert">
+                <!-- <div class="alert alert-info" role="alert">
                     <p>總金額：</p><span class="toAll"></span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="alert alert-primary text" role="alert">
@@ -173,7 +176,7 @@ if (!isset($_SESSION['cart'])) {
                         ?>
                             <tr data_sid="<?= $r['room_sid'] ?>" class="item">
                                 <td>
-                                    <a href="javascript: delete_it(<?= $r['room_sid'] ?>)" data_sid="<?= $r['room_sid'] ?>">
+                                    <a href="javascript: delete_it2(<?= $r['room_sid'] ?>)" data_sid="<?= $r['room_sid'] ?>">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                 </td>
@@ -183,7 +186,7 @@ if (!isset($_SESSION['cart'])) {
                                 <td><?= $r['room_name'] ?></td>
                                 <td class="price">$<?= $r['room_price'] ?></td>
                                 <td>
-                                    
+
                                     <select class="form-select" onchange="change()">
                                         <?php for ($i = 1; $i <= 10; $i++) : ?>
                                             <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
@@ -195,13 +198,17 @@ if (!isset($_SESSION['cart'])) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div class="alert alert-info" role="alert">
+                <!-- <div class="alert alert-info" role="alert">
+                    <p>總金額：</p><span class="toAll"></span>
+                </div> -->
+
+            </div>
+            <div class="alert alert-info" role="alert">
                     <p>總金額：</p><span class="toAll"></span>
                 </div>
-            </div>
         </div>
     </div>
-    <button type="button" class="btn btn-info" onclick="toBuy()">結帳</button>
+        <button type="button" class="btn btn-info" onclick="toBuy()">結帳</button>
 </div>
 
 
@@ -261,7 +268,7 @@ if (!isset($_SESSION['cart'])) {
         }
         toAll.textContent = `$${totalAll}`;
     }
-    //刪除單筆
+    //刪除單筆商品
     function delete_it(event) {
         sid.value = event;
         let fd = new FormData(document.querySelector('.form1'))
@@ -291,6 +298,36 @@ if (!isset($_SESSION['cart'])) {
 
         })
     }
+    //刪除單筆訂房
+    function delete_it2(event) {
+        sid.value = event;
+        let fd = new FormData(document.querySelector('.form1'))
+        Swal.fire({
+            title: '確定要刪除嗎?',
+            text: "您將刪除此筆資料!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '確定!',
+            cancelButtonText: '取消',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('./cart-api/roomCart.php', {
+                        method: "POST",
+                        body: fd
+                    })
+                    .then(r => r.json())
+                    .then(obj => console.log(obj))
+                Swal.fire(
+                    '已完成',
+                    '',
+                    'success'
+                )
+                setTimeout('location.href="cart-list.php"', 600);
+            }
+
+        })
+    }
     //購物車沒商品 隱藏btn
     let tbody = document.querySelector('tbody');
     let btn = document.querySelector('.btn-info')
@@ -302,10 +339,7 @@ if (!isset($_SESSION['cart'])) {
         let tPrice = document.querySelector('#tPrice');
         tPrice.value = toAll.textContent.split('$')[1];
         let fd = new FormData(document.querySelector('.form1'));
-        fetch('buy-api.php', {
-                method: "POST",
-                body: fd
-            })
+        fetch('buy-api.php')
             .then(r => r.text())
             .then(obj => console.log(obj));
         // Swal.fire({

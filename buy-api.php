@@ -34,7 +34,7 @@ $date = new DateTime();
 $date = explode("/", date('Y/m/d/h/i/s'));
 //時間轉換字串陣列
 list($Y, $M, $D, $H, $I, $S) = $date;
-//陣列透過join變成一個字串
+//陣列透過PHP的implode()變成一個字串
 $order_num = implode('', $date);
 
 $m = 2;

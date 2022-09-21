@@ -42,7 +42,7 @@ if (!isset($_SESSION['rCart'])) {
     }
 
     .form1 {
-        /* display: none; */
+        display: none;
     }
 </style>
 <form class="form1">
@@ -259,10 +259,9 @@ if (!isset($_SESSION['rCart'])) {
     let qty = 0
     function change() {
         qty = event.target.value;
-        money = event.target.parentNode.parentNode.childNodes[7].textContent.split('$')[1];
-        moneyAll = event.target.parentNode.parentNode.childNodes[11];
+        money = event.target.parentNode.parentNode.querySelector('.price').textContent.split('$')[1];
+        moneyAll = event.target.parentNode.parentNode.querySelector('.total');
         moneyAll.textContent = Number(qty) * Number(money);
-        toAll.textContent = ""
         totalAll = 0;
         for (let i = 0; i < total.length; i++) {
             total[i].textContent = `$${Number(price[i].textContent.split('$')[1]) * Number(sel[i].value)}`;

@@ -101,7 +101,6 @@ $rows = $pdo->query($sql)->fetchAll();
 
 <?php include __DIR__ . '/parts/html-script.php'; ?>
 <script>
-    //querySelectorAll回傳陣列
     function addToCar(event) {
         let btnE = event.currentTarget;
         let sid = btnE.getAttribute("data_sid");

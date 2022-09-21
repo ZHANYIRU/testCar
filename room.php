@@ -29,7 +29,7 @@ $rows = $pdo->query($sql)->fetchAll();
     }
 
     .form1 {
-        /* display: none; */
+        display: none;
     }
 
     .card-body {
@@ -116,7 +116,6 @@ $rows = $pdo->query($sql)->fetchAll();
         let fq = document.querySelector('#qty');
         let start = btnE.parentNode.querySelector('#start');
         let end = btnE.parentNode.querySelector('#end');
-        console.log(start);
         fs.value = sid;
         fq.value = qty;
         s_date.value = start.value;
@@ -124,22 +123,39 @@ $rows = $pdo->query($sql)->fetchAll();
         let fd = new FormData(document.querySelector('.form1'));
         let cartNum = 0;
         let badge = document.querySelector('.badge');
-        fetch('./cart-api/roomCart.php', {
-                method: "POST",
-                body: fd
-            })
-            .then(r => r.json())
-            .then(data => {
-                count(data)
-                console.log(data)
-            })
-        Swal.fire({
-            icon: 'success',
-            title: '已加入購物車',
-            showConfirmButton: false,
-            timer: 1000,
-        });
-
+        // 對日期的判斷
+        if (start.value == 0 || end.value == 0) {
+            Swal.fire(
+                '請選擇日期',
+                '',
+                'error'
+            )
+        } else {
+            //日期不能前大後小
+            if (start.value.split('-').join('') - end.value.split('-').join('') >= 0) {
+                Swal.fire(
+                    '請選擇正確日期',
+                    '',
+                    'error'
+                )
+            } else {
+                fetch('./cart-api/roomCart.php', {
+                        method: "POST",
+                        body: fd
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        count(data)
+                        console.log(data)
+                    })
+                Swal.fire({
+                    icon: 'success',
+                    title: '已加入購物車',
+                    showConfirmButton: false,
+                    timer: 1000,
+                });
+            }
+        }
     }
     // fetch('./cart-api/proCart.php')
     //     .then(r => r.json())

@@ -7,6 +7,8 @@ header('Content-Type: application/json');
 if (!isset($_SESSION['tPrice'])) {
     $_SESSION['tPrice'] = [];
 }
+$_SESSION['tPrice'] = $_POST['tPrice'];
+
 
 $output = [
     'success' => false,
@@ -18,8 +20,10 @@ $output = [
 $order = "INSERT INTO `order`( 
     `order_num`, 
     `member_sid`, 
+    `total`,
     `created_time`
     ) VALUES (
+        ?,
         ?,
         ?,
         NOW())";
@@ -36,7 +40,8 @@ $order_num = implode('', $date);
 $m = 2;
 $stmt->execute([
     $order_num,
-    $m
+    $m,
+    $_SESSION['tPrice'],
 ]);
 //回傳結果
 if ($stmt->rowCount()) {
@@ -68,29 +73,29 @@ if (!empty($_SESSION['cart'])) {
     }
 }
 
-if (!empty($_SESSION['rCart'])) {
-    foreach ($_SESSION['rCart'] as $r) {
-        $r_order = "INSERT INTO `booking_order`( 
-            `order_num`, 
-            `products_sid`, 
-            `qty`, 
-            `total`, 
-            `created_time`) VALUES (
-                ?,
-                ?,
-                ?,
-                ?,
-                NOW())";
-        $p_stmt = $pdo->prepare($p_order);
-        $p_total = $p['qty'] * $p['price'];
-        $p_stmt->execute([
-            $order_num,
-            $p['sid'],
-            $p['qty'],
-            $p_total
-        ]);
-    }
-}
+// if (!empty($_SESSION['rCart'])) {
+//     foreach ($_SESSION['rCart'] as $r) {
+//         $r_order = "INSERT INTO `booking_order`( 
+//             `order_num`, 
+//             `products_sid`, 
+//             `qty`, 
+//             `total`, 
+//             `created_time`) VALUES (
+//                 ?,
+//                 ?,
+//                 ?,
+//                 ?,
+//                 NOW())";
+//         $p_stmt = $pdo->prepare($p_order);
+//         $p_total = $p['qty'] * $p['price'];
+//         $p_stmt->execute([
+//             $order_num,
+//             $p['sid'],
+//             $p['qty'],
+//             $p_total
+//         ]);
+//     }
+// }
 
 
 

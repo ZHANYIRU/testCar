@@ -29,7 +29,7 @@ $rows = $pdo->query($sql)->fetchAll();
     }
 
     .form1 {
-        display: none;
+        /* display: none; */
     }
 
     .card-body {
@@ -41,7 +41,8 @@ $rows = $pdo->query($sql)->fetchAll();
 <form class="form1">
     <input type="text" name="sid" id="sid">
     <input type="text" name="qty" id="qty">
-    <input type="text" name="date" id="date">
+    <input type="text" name="s_date" id="s_date">
+    <input type="text" name="e_date" id="e_date">
 </form>
 <div class="container">
     <div class="row">
@@ -75,10 +76,12 @@ $rows = $pdo->query($sql)->fetchAll();
                             <?= $r['room_price'] ?>
                         </p>
                         <label for="start">入住：</label>
-                        <input type="date" id="start">
+                        <input type="date" id="start" name="start">
                         <br>
                         <label for="end">離開：</label>
-                        <input type="date" id="end">
+                        <input type="date" id="end" name="end">
+                        <br>
+                        <label for="">人數：</label>
                         <select class="form-select">
                             <?php for ($i = 1; $i <= 10; $i++) : ?>
                                 <option value="<?= $i ?>"><?= $i ?></option>
@@ -101,13 +104,23 @@ $rows = $pdo->query($sql)->fetchAll();
 <script>
     function addToCar(event) {
         let btnE = event.currentTarget;
+        //POST的sid
         let sid = btnE.getAttribute("data_sid");
+        //POST的數量
         let qty = btnE.parentNode.querySelector('.form-select').value;
+        //POST的日期
+        let s_date = document.querySelector('#s_date');
+        let e_date = document.querySelector('#e_date');
+
         let fs = document.querySelector('#sid');
-        let fdate = document.querySelector('#date');
         let fq = document.querySelector('#qty');
+        let start = btnE.parentNode.querySelector('#start');
+        let end = btnE.parentNode.querySelector('#end');
+        console.log(start);
         fs.value = sid;
-        fq.value = qty
+        fq.value = qty;
+        s_date.value = start.value;
+        e_date.value = end.value;
         let fd = new FormData(document.querySelector('.form1'));
         let cartNum = 0;
         let badge = document.querySelector('.badge');
@@ -128,12 +141,12 @@ $rows = $pdo->query($sql)->fetchAll();
         });
 
     }
-    fetch('./cart-api/proCart.php')
-        .then(r => r.json())
-        .then(function(data) {
-            count(data)
-            console.log(data)
-        });
+    // fetch('./cart-api/proCart.php')
+    //     .then(r => r.json())
+    //     .then(function(data) {
+    //         count(data)
+    //         console.log(data)
+    //     });
 </script>
 
 

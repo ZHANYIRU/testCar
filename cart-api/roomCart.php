@@ -32,4 +32,7 @@ if (!empty($sid)) {
         unset($_SESSION['rCart'][$sid]);
     }
 }
+$_SESSION['rCart'][$sid]['start'] = $_POST['s_date'];
+$_SESSION['rCart'][$sid]['end'] = $_POST['e_date'];
+
 echo json_encode($_SESSION['rCart'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);

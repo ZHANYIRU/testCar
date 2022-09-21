@@ -42,7 +42,7 @@ if (!isset($_SESSION['rCart'])) {
     }
 
     .form1 {
-        display: none;
+        /* display: none; */
     }
 </style>
 <form class="form1">
@@ -152,7 +152,7 @@ if (!isset($_SESSION['rCart'])) {
             </div>
         </div>
         <div class="alert alert-primary text" role="alert">
-            訂房管理
+            房間
         </div>
         <div class="coll" id="room">
             <div class="card card-body">
@@ -163,9 +163,11 @@ if (!isset($_SESSION['rCart'])) {
                                 <i class="fa-solid fa-trash-can"></i>
                             </th>
                             <th scope="col">封面</th>
-                            <th scope="col">商品名稱</th>
-                            <th scope="col">單價</th>
-                            <th scope="col">數量</th>
+                            <th scope="col">房名</th>
+                            <th scope="col">價錢</th>
+                            <th scope="col">人數</th>
+                            <th scope="col">入住時間</th>
+                            <th scope="col">離開時間</th>
                             <th scope="col">金額</th>
                         </tr>
                     </thead>
@@ -185,13 +187,14 @@ if (!isset($_SESSION['rCart'])) {
                                 <td><?= $r['room_name'] ?></td>
                                 <td class="price">$<?= $r['room_price'] ?></td>
                                 <td>
-
                                     <select class="form-select" onchange="change()">
                                         <?php for ($i = 1; $i <= 10; $i++) : ?>
                                             <option value="<?= $i ?>" <?= $r['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
                                         <?php endfor; ?>
                                     </select>
                                 </td>
+                                <td><?= $r['start'] ?></td>
+                                <td><?= $r['end'] ?></td>
                                 <td class="total"></td>
                             </tr>
                         <?php endforeach; ?>
@@ -338,7 +341,10 @@ if (!isset($_SESSION['rCart'])) {
         let tPrice = document.querySelector('#tPrice');
         tPrice.value = toAll.textContent.split('$')[1];
         let fd = new FormData(document.querySelector('.form1'));
-        fetch('buy-api.php')
+        fetch('buy-api.php',{
+            method:"POST",
+            body:fd
+        })
             .then(r => r.text())
             .then(obj => console.log(obj));
         // Swal.fire({

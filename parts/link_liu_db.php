@@ -13,10 +13,10 @@ $pdo_options = [
 
 $pdo = new PDO($dsn, $db_user, $db_pass, $pdo_options);
 
-$p_sql = "SELECT * FROM `store`";
+// $p_sql = "SELECT * FROM `store`";
 
-$total = $pdo->query($p_sql)->fetchAll();
-echo json_encode($total , JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+// $total = $pdo->query($p_sql)->fetchAll();
+// echo json_encode($total , JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
 
 if(!isset($_SESSION)){
     session_start();

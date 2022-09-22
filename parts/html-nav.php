@@ -52,7 +52,7 @@
                     </ul>
                 </div>
 
-                <button type="button" class="btn btn-warning <?= $pageName == 'car' ? "" : "none" ?>">清空購物車</button>
+                <button type="button" class="btn btn-warning <?= $pageName == 'cart' ? "" : "none" ?>">清空購物車</button>
             </div>
         </nav>
     </div>

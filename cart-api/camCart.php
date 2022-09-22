@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . './../parts/connect_db.php';
-if(! isset($_SESSION['cart'])){
-    $_SESSION['cart'] = [];
+require __DIR__ . './../parts/connect-db.php';
+if(! isset($_SESSION['camCart'])){
+    $_SESSION['camCart'] = [];
 }
 
 $sid = isset($_POST['sid']) ? intval($_POST['sid']) : 0;
@@ -16,22 +16,22 @@ if(! empty($sid)) {
 
     if(! empty($qty)) {
         // 新增或變更
-        if(!empty($_SESSION['cart'][$sid])){
+        if(!empty($_SESSION['camCart'][$sid])){
             // 已存在,變更(增加)
-            $_SESSION['cart'][$sid]['qty'] = $_SESSION['cart'][$sid]['qty'] + $qty;
+            $_SESSION['camCart'][$sid]['qty'] = $_SESSION['camCart'][$sid]['qty'] + $qty;
         } else {
             // 新增
             // TODO: 檢查資料表是不是有這個商品
-            $row = $pdo->query("SELECT * FROM products WHERE sid=$sid")->fetch();
+            $row = $pdo->query("SELECT * FROM `campaign` WHERE sid=$sid")->fetch();
             if(! empty($row)){
                 $row['qty'] = $qty;  // 先把數量放進去
-                $_SESSION['cart'][$sid] = $row;
+                $_SESSION['camCart'][$sid] = $row;
             }
         }
     } else {
         // 刪除項目
-        unset($_SESSION['cart'][$sid]);
+        unset($_SESSION['camCart'][$sid]);
     }
 }
 
-echo json_encode($_SESSION['cart'],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+echo json_encode($_SESSION['camCart'],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);

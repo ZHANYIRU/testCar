@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . './../parts/connect_db.php';
+require __DIR__ . './../parts/connect-db.php';
 if (!isset($_SESSION['rCart'])) {
     $_SESSION['rCart'] = [];
 }

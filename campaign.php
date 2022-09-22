@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/parts/link_liu_db.php';
+<?php require __DIR__ . '/parts/connect-db.php';
 $pageName = 'campaign';
 
 
@@ -12,6 +12,10 @@ $rows = $pdo->query($sql)->fetchAll();
 ?>
 <?php include __DIR__ .'/parts/html-head.php';?>
 <?php include __DIR__ .'/parts/html-nav.php';?>
+<form class="form1">
+    <input type="text" name="sid" id="sid">
+    <input type="text" name="qty" id="qty">
+</form>
 <div class="container">
     <div class="row">
     <nav aria-label="Page navigation example">
@@ -54,7 +58,37 @@ $rows = $pdo->query($sql)->fetchAll();
         <?php endforeach ?>
     </div>
 </div>
+<script>
+    function addToCar(event) {
+        let btnE = event.currentTarget;
+        let sid = btnE.getAttribute("data_sid");
+        let qty = btnE.parentNode.querySelector('.form-select').value;
+        let fs = document.querySelector('#sid');
+        let fq = document.querySelector('#qty');
+        fs.value = sid;
+        fq.value = qty
+        let fd = new FormData(document.querySelector('.form1'));
+        let cartNum = 0;
+        let badge = document.querySelector('.badge');
+        fetch('./cart-api/camCart.php', {
+                method: "POST",
+                body: fd
+            })
+            .then(r => r.json())
+            .then(function(data){
+                count(data)
+                console.log(data)
+            }
+            )
+        Swal.fire({
+            icon: 'success',
+            title: '已加入購物車',
+            showConfirmButton: false,
+            timer: 1000,
+        });
 
+    }
+</script>
 
 
 

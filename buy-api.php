@@ -1,4 +1,6 @@
 <?php require __DIR__ . '/parts/connect_db.php';
+require __DIR__ . '/parts/link_liu_db.php';
+
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -73,29 +75,29 @@ if (!empty($_SESSION['cart'])) {
     }
 }
 
-// if (!empty($_SESSION['rCart'])) {
-//     foreach ($_SESSION['rCart'] as $r) {
-//         $r_order = "INSERT INTO `booking_order`( 
-//             `order_num`, 
-//             `products_sid`, 
-//             `qty`, 
-//             `total`, 
-//             `created_time`) VALUES (
-//                 ?,
-//                 ?,
-//                 ?,
-//                 ?,
-//                 NOW())";
-//         $p_stmt = $pdo->prepare($p_order);
-//         $p_total = $p['qty'] * $p['price'];
-//         $p_stmt->execute([
-//             $order_num,
-//             $p['sid'],
-//             $p['qty'],
-//             $p_total
-//         ]);
-//     }
-// }
+if (!empty($_SESSION['rCart'])) {
+    foreach ($_SESSION['rCart'] as $r) {
+        $r_order = "INSERT INTO `booking_order`( 
+            `order_num`, 
+            `products_sid`, 
+            `qty`, 
+            `total`, 
+            `created_time`) VALUES (
+                ?,
+                ?,
+                ?,
+                ?,
+                NOW())";
+        $p_stmt = $pdo->prepare($p_order);
+        $p_total = $p['qty'] * $p['price'];
+        $p_stmt->execute([
+            $order_num,
+            $p['sid'],
+            $p['qty'],
+            $p_total
+        ]);
+    }
+}
 
 
 

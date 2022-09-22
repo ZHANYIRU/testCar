@@ -1,20 +1,20 @@
-<?php require __DIR__ . '/parts/connect_db.php';
+<?php require __DIR__ . '/parts/connect-db.php';
 $pageName = 'products';
-//查詢總共有幾筆
-$p_sql = "SELECT COUNT(1) FROM `products`";
-//fetch(PDO::FETCH_NUM) 去掉欄位 .[0]只取值 得到有幾行的資料
-$totalRows = $pdo->query($p_sql)->fetch(PDO::FETCH_NUM)[0];
-//每頁放4筆
-$perPage = 4;
-//總共有幾頁 
-$totalPages = ceil($totalRows / $perPage);
+// //查詢總共有幾筆
+// $p_sql = "SELECT COUNT(1) FROM `products`";
+// //fetch(PDO::FETCH_NUM) 去掉欄位 .[0]只取值 得到有幾行的資料
+// $totalRows = $pdo->query($p_sql)->fetch(PDO::FETCH_NUM)[0];
+// //每頁放4筆
+// $perPage = 4;
+// //總共有幾頁 
+// $totalPages = ceil($totalRows / $perPage);
 
 
 
 
 //查詢資料 降冪排序 LIMIT 0,5 
 $sql = sprintf(
-    "SELECT * FROM `products` ORDER BY sid DESC"
+    "SELECT * FROM `product` ORDER BY `product_sid` DESC"
 );
 // $rows = [];
 $rows = $pdo->query($sql)->fetchAll();
@@ -74,20 +74,20 @@ $rows = $pdo->query($sql)->fetchAll();
         <?php foreach ($rows as $r) : ?>
 
             <div class="card" style="width: 18rem;">
-                <img src="./imgs/<?= $r['img_id'] ?>.jpg" class="card-img-top" alt="...">
+                <img src="./imgs/<?= $r['picture'] ?>.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title"><?= $r['pr_name'] ?></h5>
+                    <h5 class="card-title"><?= $r['product_name'] ?></h5>
                     <div>
                         <p class="card-text">
                             <i class="fa-solid fa-dollar-sign"></i>
-                            <?= $r['price'] ?>
+                            <?= $r['product_price'] ?>
                         </p>
                         <select class="form-select">
                             <?php for ($i = 1; $i <= 10; $i++) : ?>
                                 <option value="<?= $i ?>"><?= $i ?></option>
                             <?php endfor; ?>
                         </select>
-                        <button type="button" class="btn btn-primary" data_sid="<?= $r['sid'] ?>" onclick="addToCar(event)"><i class="fa-solid fa-cart-plus"></i></button>
+                        <button type="button" class="btn btn-primary" data_sid="<?= $r['product_sid'] ?>" onclick="addToCar(event)"><i class="fa-solid fa-cart-plus"></i></button>
                     </div>
                 </div>
 

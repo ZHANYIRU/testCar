@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/parts/connect_db.php';?>
+<?php require __DIR__ . '/parts/connect-db.php';?>
 <?php include __DIR__ .'/parts/html-head.php';?>
 <?php include __DIR__ .'/parts/html-nav.php';?>
 <?php include __DIR__ .'/parts/html-script.php';?>

@@ -8,6 +8,8 @@ $cr = 'cart-list.php';
 if(! isset($_SESSION['cart'])){
     $_SESSION['cart'] = [];
     $_SESSION['rCart'] = [];
+    $_SESSION['renCart'] =[];
+    $_SESSION['camCart'] =[];
     $_SESSION['tPrice'] =[];
     header("Location: {$cr}");
 }

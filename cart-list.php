@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/parts/connect_db.php';
+<?php require __DIR__ . '/parts/connect-db.php';
 $pageName = 'cart';
 
 if (!isset($_SESSION['cart'])) {
@@ -6,6 +6,12 @@ if (!isset($_SESSION['cart'])) {
 }
 if (!isset($_SESSION['rCart'])) {
     $_SESSION['rCart'] = [];
+}
+if (!isset($_SESSION['camCart'])) {
+    $_SESSION['camCart'] = [];
+}
+if (!isset($_SESSION['renCart'])) {
+    $_SESSION['renCart'] = [];
 }
 
 ?>
@@ -74,17 +80,17 @@ if (!isset($_SESSION['rCart'])) {
                         foreach ($_SESSION['cart'] as $p) :
 
                         ?>
-                            <tr data_sid="<?= $p['sid'] ?>" class="item">
+                            <tr data_sid="<?= $p['product_sid'] ?>" class="item">
                                 <td>
-                                    <a href="javascript: delete_it(<?= $p['sid'] ?>)" data_sid="<?= $p['sid'] ?>">
+                                    <a href="javascript: delete_it(<?= $p['product_sid'] ?>)" data_sid="<?= $p['product_sid'] ?>">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <img src="./imgs/<?= $p['img_id'] ?>.jpg" alt="" width="150px">
+                                    <img src="./imgs/<?= $p['picture'] ?>" alt="" width="150px">
                                 </td>
-                                <td><?= $p['pr_name'] ?></td>
-                                <td class="price">$<?= $p['price'] ?></td>
+                                <td><?= $p['product_name'] ?></td>
+                                <td class="price">$<?= $p['product_price'] ?></td>
                                 <td>
 
                                     <select class="form-select" onchange="change()">
@@ -98,9 +104,6 @@ if (!isset($_SESSION['rCart'])) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <!-- <div class="alert alert-info" role="alert">
-                    <p>總金額：</p><span class="toAll"></span>
-                </div> -->
             </div>
         </div>
         <div class="alert alert-primary text" role="alert">
@@ -121,10 +124,35 @@ if (!isset($_SESSION['rCart'])) {
                             <th scope="col">金額</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <?php
+                        foreach ($_SESSION['renCart'] as $ren) :
+
+                        ?>
+                            <tr data_sid="<?= $ren['rental_product_sid'] ?>" class="item">
+                                <td>
+                                    <a href="javascript: delete_it(<?= $ren['rental_product_sid'] ?>)" data_sid="<?= $ren['rental_product_sid'] ?>">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <img src="./imgs/<?= $ren['rental_img'] ?>" alt="" width="150px">
+                                </td>
+                                <td><?= $ren['rental_product_name'] ?></td>
+                                <td class="price">$<?= $ren['rental_price'] ?></td>
+                                <td>
+
+                                    <select class="form-select" onchange="change()">
+                                        <?php for ($i = 1; $i <= 10; $i++) : ?>
+                                            <option value="<?= $i ?>" <?= $ren['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </td>
+                                <td class="total"></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
                 </table>
-                <!-- <div class="alert alert-info" role="alert">
-                    <p>總金額：</p><span class="toAll"></span>
-                </div> -->
             </div>
         </div>
         <div class="alert alert-primary text" role="alert">
@@ -145,10 +173,35 @@ if (!isset($_SESSION['rCart'])) {
                             <th scope="col">金額</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <?php
+                        foreach ($_SESSION['camCart'] as $cam) :
+
+                        ?>
+                            <tr data_sid="<?= $cam['sid'] ?>" class="item">
+                                <td>
+                                    <a href="javascript: delete_it(<?= $cam['sid'] ?>)" data_sid="<?= $cam['sid'] ?>">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <img src="./imgs/<?= $cam['mainImage'] ?>" alt="" width="150px">
+                                </td>
+                                <td><?= $cam['name'] ?></td>
+                                <td class="price">$<?= $cam['price'] ?></td>
+                                <td>
+
+                                    <select class="form-select" onchange="change()">
+                                        <?php for ($i = 1; $i <= 10; $i++) : ?>
+                                            <option value="<?= $i ?>" <?= $cam['qty'] == $i ? "selected" : "" ?> class="op"><?= $i ?></option>
+                                        <?php endfor; ?>
+                                    </select>
+                                </td>
+                                <td class="total"></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
                 </table>
-                <!-- <div class="alert alert-info" role="alert">
-                    <p>總金額：</p><span class="toAll"></span>
-                </div> -->
             </div>
         </div>
         <div class="alert alert-primary text" role="alert">
@@ -200,10 +253,6 @@ if (!isset($_SESSION['rCart'])) {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <!-- <div class="alert alert-info" role="alert">
-                    <p>總金額：</p><span class="toAll"></span>
-                </div> -->
-
             </div>
             <div class="alert alert-info" role="alert">
                     <p>總金額：</p><span class="toAll"></span>

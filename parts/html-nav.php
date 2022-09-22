@@ -47,7 +47,7 @@
                                 <span class="badge"></span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $pageName == 'list' ? 'clicked' : '' ?>" href="./list.php">訂單管理</a>
+                            <a class="nav-link <?= $pageName == 'order' ? 'clicked' : '' ?>" href="./order.php">訂單管理</a>
                         </li>
                     </ul>
                 </div>

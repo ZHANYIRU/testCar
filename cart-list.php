@@ -255,11 +255,11 @@ if (!isset($_SESSION['renCart'])) {
                 </table>
             </div>
             <div class="alert alert-info" role="alert">
-                    <p>總金額：</p><span class="toAll"></span>
-                </div>
+                <p>總金額：</p><span class="toAll"></span>
+            </div>
         </div>
     </div>
-        <button type="button" class="btn btn-info" onclick="toBuy()">結帳</button>
+    <button type="button" class="btn btn-info" onclick="toBuy()">結帳</button>
 </div>
 
 
@@ -306,6 +306,7 @@ if (!isset($_SESSION['renCart'])) {
     toAll.textContent = `$${totalAll}`;
     //更換數量
     let qty = 0
+
     function change() {
         qty = event.target.value;
         money = event.target.parentNode.parentNode.querySelector('.price').textContent.split('$')[1];
@@ -449,28 +450,30 @@ if (!isset($_SESSION['renCart'])) {
         let tPrice = document.querySelector('#tPrice');
         tPrice.value = toAll.textContent.split('$')[1];
         let fd = new FormData(document.querySelector('.form1'));
-        fetch('buy-api.php',{
-            method:"POST",
-            body:fd
+        Swal.fire({
+            title: '確定要結帳嗎?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '確定!',
+            cancelButtonText: '取消',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('buy-api.php', {
+                        method: "POST",
+                        body: fd
+                    })
+                    .then(r => r.text())
+                    .then(obj => console.log(obj));
+                Swal.fire(
+                    '已完成',
+                    '',
+                    'success',
+                )
+                fetch('clean-api.php');
+                setTimeout('location.href="list.php"', 800)
+            }
         })
-            .then(r => r.text())
-            .then(obj => console.log(obj));
-        // Swal.fire({
-        //     title: '確定要結帳嗎?',
-        //     icon: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonText: '確定!',
-        //     cancelButtonText: '取消',
-        //     reverseButtons: true
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-        //         Swal.fire(
-        //             '已完成',
-        //             '',
-        //             'success',
-        //         )
-        //     }
-        // })
     }
 </script>
 <?php include __DIR__ . '/parts/html-foot.php'; ?>

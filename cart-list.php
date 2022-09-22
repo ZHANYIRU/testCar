@@ -131,7 +131,7 @@ if (!isset($_SESSION['renCart'])) {
                         ?>
                             <tr data_sid="<?= $ren['rental_product_sid'] ?>" class="item">
                                 <td>
-                                    <a href="javascript: delete_it(<?= $ren['rental_product_sid'] ?>)" data_sid="<?= $ren['rental_product_sid'] ?>">
+                                    <a href="javascript: delete_it3(<?= $ren['rental_product_sid'] ?>)" data_sid="<?= $ren['rental_product_sid'] ?>">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                 </td>
@@ -180,7 +180,7 @@ if (!isset($_SESSION['renCart'])) {
                         ?>
                             <tr data_sid="<?= $cam['sid'] ?>" class="item">
                                 <td>
-                                    <a href="javascript: delete_it(<?= $cam['sid'] ?>)" data_sid="<?= $cam['sid'] ?>">
+                                    <a href="javascript: delete_it4(<?= $cam['sid'] ?>)" data_sid="<?= $cam['sid'] ?>">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                 </td>
@@ -363,6 +363,66 @@ if (!isset($_SESSION['renCart'])) {
         }).then((result) => {
             if (result.isConfirmed) {
                 fetch('./cart-api/roomCart.php', {
+                        method: "POST",
+                        body: fd
+                    })
+                    .then(r => r.json())
+                    .then(obj => console.log(obj))
+                Swal.fire(
+                    '已完成',
+                    '',
+                    'success'
+                )
+                setTimeout('location.href="cart-list.php"', 600);
+            }
+
+        })
+    }
+    //刪除單筆租借
+    function delete_it3(event) {
+        sid.value = event;
+        let fd = new FormData(document.querySelector('.form1'))
+        Swal.fire({
+            title: '確定要刪除嗎?',
+            text: "您將刪除此筆資料!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '確定!',
+            cancelButtonText: '取消',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('./cart-api/renCart.php', {
+                        method: "POST",
+                        body: fd
+                    })
+                    .then(r => r.json())
+                    .then(obj => console.log(obj))
+                Swal.fire(
+                    '已完成',
+                    '',
+                    'success'
+                )
+                setTimeout('location.href="cart-list.php"', 600);
+            }
+
+        })
+    }
+    //刪除單筆活動
+    function delete_it4(event) {
+        sid.value = event;
+        let fd = new FormData(document.querySelector('.form1'))
+        Swal.fire({
+            title: '確定要刪除嗎?',
+            text: "您將刪除此筆資料!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '確定!',
+            cancelButtonText: '取消',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('./cart-api/camCart.php', {
                         method: "POST",
                         body: fd
                     })
